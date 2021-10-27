@@ -9,7 +9,6 @@ public class T2 {
         Scanner console = new Scanner (System.in);
         String n = console.next();
         removeDups(n);
-
     }
     public static void removeDups(String str1){
         ArrayList<Character> set=new ArrayList<Character>();

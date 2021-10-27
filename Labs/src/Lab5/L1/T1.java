@@ -6,7 +6,6 @@ public class T1 {
         Scanner console = new Scanner (System.in);
         String n = console.next();
         Printpalindrome(n);
-
     }
 
     public static void Printpalindrome(String n){

@@ -9,7 +9,6 @@ public class T3 {
         String s = console.next();
         String t = console.next();
         permutation1(s,t);
-
     }
     public static void permutation1(String s, String t) {
         if (s.length() != t.length()) {
