@@ -176,13 +176,14 @@ public class main{
         System.out.println("Авторизация \n Введите логин и пароль пользователя:");
         String login = (String)scanner.nextLine();
         String password = (String)scanner.nextLine();
-        if (login!="1234" | password!="1234"){
-            System.out.println("Ошибка авторизации!");
-        }
-        else {
+        if (login.equals("1234") | password.equals("1234")){
             if (!client.isAuth(login, password)) {
                 getMenu();
             }
+
+        }
+        else {
+            System.out.println("Ошибка авторизации!");
         }
     }
 
