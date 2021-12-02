@@ -93,8 +93,9 @@ public class main {
         double gc = getCash(client.purchased.purchased);
         System.out.print("Общая сумма покупок составляет -------" + gc);
         result+="Общая сумма покупок составляет = " + gc + " руб.";
+
         try {
-            FileOutputStream outputStream = new FileOutputStream(new File("Basket.ser"));
+            FileOutputStream outputStream = new FileOutputStream(new File("Labs\\src\\Lab8\\Basket.ser"));
             ObjectOutputStream objectOutputStream;
             objectOutputStream = new ObjectOutputStream(outputStream);
             objectOutputStream.writeObject(result);
@@ -103,9 +104,23 @@ public class main {
             e.printStackTrace();
         }
     }
+    public static void write(Product[] b) {
+        try {
+            PrintWriter out = new PrintWriter(new FileOutputStream(new File("Labs\\src\\Lab8\\123")));
+            for(int i = 0; i < b.length; ++i) {
+                if(b[i] == null) break;
+                out.println((i+1) + ". " + b[i].nameProduct + " ------- "
+                        + b[i].cost + " ------- " + b[i].rating);
+            }
+            out.flush();
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
         public static void outString(){
             try {
-                FileInputStream fileInputStream = new FileInputStream(new File("Basket.ser"));
+                FileInputStream fileInputStream = new FileInputStream(new File("Labs\\src\\Lab8\\Basket.ser"));
                 try {
                     ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
                     try {
@@ -180,7 +195,7 @@ public class main {
                 }
             }
         }
-
+        write(card);
         getCategory(all);
     }
 
@@ -207,6 +222,7 @@ public class main {
     static Category[] all = { bakery, diary,meat };
     static Product[] card;
     static User client;
+
     public static void main(String[] args) {
         client = new User("1234","1234");
 
