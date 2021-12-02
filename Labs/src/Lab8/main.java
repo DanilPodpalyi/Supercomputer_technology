@@ -1,11 +1,9 @@
-package Lab7;
+package Lab8;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.util.Scanner;
 
-public class main{
+public class main {
 
     public static class Product {
         String nameProduct;
@@ -55,6 +53,7 @@ public class main{
         System.out.println("1.Категории товаров");
         System.out.println("2.Корзина");
         System.out.println("3.Оплатить");
+        System.out.println("4.Вывести предыдущие покупки");
         System.out.println("0.Выход");
         Scanner sc = new Scanner(System.in);
         int number = sc.nextInt();
@@ -71,6 +70,10 @@ public class main{
                 Buy();
                 break;
             }
+            case 4: {
+                outString();
+                break;
+            }
             case 0: {
                 break;
             }
@@ -79,16 +82,49 @@ public class main{
     public static void Buy() {
         Basket cards = new Basket(card);
         client.purchased = cards;
+        String result = "";
         System.out.println("Товарный чек");
-        for(int i = 0; i < client.purchased.purchased.length; ++i) {
-            if(client.purchased.purchased[i] == null) break;
-            System.out.println((i+1) + ". " + client.purchased.purchased[i].nameProduct + " ------- "
+        for (int i = 0; i < client.purchased.purchased.length; ++i) {
+            if (client.purchased.purchased[i] == null) break;
+            System.out.println((i + 1) + ". " + client.purchased.purchased[i].nameProduct + " ------- "
                     + client.purchased.purchased[i].cost + " ------- " + client.purchased.purchased[i].rating);
+            result += ((i+1) + "." + client.purchased.purchased[i].toString() + "\n");
         }
         double gc = getCash(client.purchased.purchased);
         System.out.print("Общая сумма покупок составляет -------" + gc);
-
+        result+="Общая сумма покупок составляет = " + gc + " руб.";
+        try {
+            FileOutputStream outputStream = new FileOutputStream(new File("Basket.ser"));
+            ObjectOutputStream objectOutputStream;
+            objectOutputStream = new ObjectOutputStream(outputStream);
+            objectOutputStream.writeObject(result);
+            objectOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+        public static void outString(){
+            try {
+                FileInputStream fileInputStream = new FileInputStream(new File("Basket.ser"));
+                try {
+                    ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+                    try {
+                        String savedGame = (String) objectInputStream.readObject();
+                        System.out.println(savedGame);
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    objectInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            getMenu();
+        }
+
+
     public static double getCash(Product[] p) {
         double cash = 0.0;
         for(int i = 0; i < p.length; ++i) {
